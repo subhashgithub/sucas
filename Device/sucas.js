@@ -23,6 +23,12 @@ client.on('connect', function(connection) {
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
             console.log("Received: '" + message.utf8Data + "'");
+            var jsonObj = JSON.parse(message.utf8Data)
+            if (jsonObj.messages != undefined) {
+                led.setPower(jsonObj.messages[0].applianceid, jsonObj.messages[0].controlcode, jsonObj.messages[0].alert);
+                var power = led.getPowerValue();
+                connection.sendUTF('{"messageType": "7535f4cf6c56444fb4ca", "messages": '+JSON.stringify(power)+'}');
+            }
         }
     });
     
@@ -35,7 +41,9 @@ client.on('connect', function(connection) {
         
         if (connection.connected) {
             var messages  = led.getPowerStatus();
-            connection.sendUTF('"messageType": "6e443432878a095ba277", "messages": '+JSON.stringify(messages));
+            connection.sendUTF('{"messageType": "6e443432878a095ba277", "messages": '+JSON.stringify(messages)+'}');
+            var power = led.getPowerValue();
+            connection.sendUTF('{"messageType": "7535f4cf6c56444fb4ca", "messages": '+JSON.stringify(power)+'}');
             setTimeout(checkAndSendPower, 10000);
         }
     }
