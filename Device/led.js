@@ -9,11 +9,21 @@ var ledGreenPin = "P9_15";
 var ledRedPin   = "P9_13";
 var ledBluePin  = "P9_11";
 
+var drRoom = "P8_10";
+var dinRoom = "P8_12";
+var bRoom1   = "P8_14";
+var bRoom2  = "P8_16";
+
 
 var statePower = 0;
 var stateRed   = 0;
 var stateBlue  = 0;
 var stateGreen = 0;
+
+var stateDrRoom = 0;
+var stateDinRoom = 0;
+var stateBRoom1 = 0;
+var stateBRoom2 = 0;
 
 var delay = 1000;
 
@@ -33,6 +43,10 @@ var led = {
      b.pinMode(ledRedPin, 'out');
      b.pinMode(ledGreenPin, 'out');
      b.pinMode(ledBluePin, 'out');
+     b.pinMode(drRoom, 'out');
+     b.pinMode(dinRoom, 'out');
+     b.pinMode(bRoom1, 'out');
+     b.pinMode(bRoom2, 'out');
     },
     
     ledPowerOn: function(){
@@ -137,10 +151,40 @@ var led = {
      stateGreen = off;
      b.digitalWrite(ledPowerPin, statePower);
      b.digitalWrite(ledRedPin, stateRed);
-     b.digitalWrite(ledPowerPin, stateGreen);
-     b.digitalWrite(ledPowerPin, stateBlue);
+     b.digitalWrite(ledGreenPin, stateGreen);
+     b.digitalWrite(ledBluePin, stateBlue);
      
+    },
+    
+    initialize : function () {
+     statePower=off;
+     stateRed = off;
+     stateBlue = off;
+     stateGreen = off;
+     stateDrRoom=off;
+     stateDinRoom = off;
+     stateBRoom1 = off;
+     stateBRoom2 = off;
+     b.digitalWrite(ledPowerPin, statePower);
+     b.digitalWrite(ledRedPin, stateRed);
+     b.digitalWrite(ledGreenPin, stateGreen);
+     b.digitalWrite(ledBluePin, stateBlue);
+     b.digitalWrite(drRoom, stateDrRoom);
+     b.digitalWrite(dinRoom, stateDinRoom);
+     b.digitalWrite(bRoom1, stateBRoom1);
+     b.digitalWrite(bRoom2, stateBRoom2);
+    },
+    
+    getPowerStatus: function() {
+        var msgDrRoom = {"applianceid":"drRoom","controlcode":""+stateDrRoom};
+        var msgDinRoom = {"applianceid":"dinRoom","controlcode":"" +stateDinRoom};
+        var msgBRoom1 = {"applianceid":"bRoom1","controlcode":"" + stateBRoom1};
+        var msgBRoom2 = {"applianceid":"bRoom2","controlcode":""+stateBRoom2};
+        
+        return [msgDrRoom, msgDinRoom, msgBRoom1, msgBRoom2];
+        
     }
+    
     
 };
 
