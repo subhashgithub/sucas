@@ -222,7 +222,7 @@ var led = {
         
         if (this.previousStateCount === 4 && this.stateCount < 4) {
          this.ledSetGreen();
-         this.sleep(8000);
+         this.sleep(4500);
          this.ledSetNone();
         }
         var powerValue = this.stateCount * this.multiplier;
